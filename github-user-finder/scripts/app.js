@@ -27,8 +27,8 @@ $(function () {
                 }, data);
 
                 let [user, repos] = await Promise.all([fetchUser, fetchRepos]);
-                console.log(user);
                 showProfile(user);
+                showRepos(repos);
 
             } catch (error) {
                 clear();
@@ -61,6 +61,31 @@ $(function () {
         </footer>
       </div>
         `);
+    };
+
+    function showRepos(repos) {
+
+        repos.sort((a, b) => b.stargazers_count - a.stargazers_count)
+
+        let reposHTML = repos.map(function (repo) {
+            return `<a href="${repo.html_url}" class="panel-block panel-repo" target="_blank">
+          <span class="panel-icon"><i class="octicon octicon-repo"></i></span>
+          ${repo.name}
+          <span class="star-count">${repo.stargazers_count}</span> 
+          <i class="octicon octicon-star"></i>
+        </a>`
+        }).join('')
+
+        let html = `
+      <div class="panel">
+        <p class="panel-heading repo">
+          <i class="octicon octicon-list-unordered"></i>
+          仓库列表
+        </p>
+        ${reposHTML}
+      </div>`
+
+        $('.repos').html(html)
     };
 
     function clear() {
