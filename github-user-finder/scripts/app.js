@@ -1,6 +1,6 @@
 $(function () {
 
-    let $user = document.querySelector('#username');
+    let $user = $('#username');
 
     let data = {
         client_id: 'a9289d21b4dd2cd324f6',
@@ -14,20 +14,20 @@ $(function () {
 
         let fetchUser, fetchRepos;
 
-        if ($(this).val().trim().length === 0) return;
+        if ($user.val().trim().length === 0) return;
 
-        timerId = settimerout(async function () {
+        timerId = setTimeout(async function () {
 
             try {
                 fetchUser = $.ajax({
-                    url: `https://api.github.com/users/${$(this).val()}`
+                    url: `https://api.github.com/users/${$user.val()}`
                 }, data);
                 fetchRepos = $.ajax({
-                    url: `https://api.github.com/users/${$(this).val()}/repos`
+                    url: `https://api.github.com/users/${$user.val()}/repos`
                 }, data);
 
                 let [user, repos] = await Promise.all([fetchUser, fetchRepos]);
-
+                console.log(user);
                 showProfile(user);
 
             } catch (error) {
