@@ -1,0 +1,21 @@
+html {
+    height: 100%;
+}
+body {
+    margin: 0;
+    height: 100%;
+    background-color: #f8f8f8;
+}
+
+.container {
+    max-width: 800px;
+}
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    padding: 6px;
+}
+
+.control .input {
+    text-align: center;
+}
