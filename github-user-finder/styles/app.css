@@ -1,10 +1,9 @@
 html {
-    height: 100%;
+    background-color: #f8f8f8;
 }
 body {
     margin: 0;
-    height: 100%;
-    background-color: #f8f8f8;
+    /*background-color: #f8f8f8;*/
 }
 
 .container {
@@ -43,6 +42,9 @@ h1 {
 .panel-repo .star-count {
   margin-left: auto;
   margin-right: 8px;
+}
+.panel-repo {
+  background: #fff;
 }
 
 

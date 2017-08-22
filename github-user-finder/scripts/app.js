@@ -6,6 +6,7 @@ $(function () {
     }
     let timerUser, timerRepos;
     let userRepos;
+    let flag = false;
 
     let $user = $('#username');
 
@@ -15,7 +16,7 @@ $(function () {
 
         let fetchUser, fetchRepos;
 
-        if ($user.val().trim().length === 0) return;
+        if ($user.val().length === 0) return;
 
         timerUser = setTimeout(async function () {
 
@@ -43,20 +44,24 @@ $(function () {
 
     })
 
-    $('.repos').on('keyup', '#search', function (event) {
+    $('#search').on('keyup', function (event) {
 
         clearTimeout(timerRepos);
 
-        if ($(this).val().trim().length === 0) return;
+        // if ($(this).val().length === 0) return;
 
         let searchRepo = $(this).val().trim();
 
         timerRepos = setTimeout(function () {
             if (searchRepo) {
                 showRepos(userRepos.filter((repo) => repo.name.indexOf(searchRepo) > -1));
-            } else {
+                flag = !!searchRepo;
+            } else if(!searchRepo && flag) {
                 showRepos(userRepos);
-            } 
+                flag = false;
+            } else {
+                return;
+            }
         }, 300)
     })
 
