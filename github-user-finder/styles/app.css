@@ -27,10 +27,8 @@ h1 {
     flex: 1;
 }
 .user .item {
-    margin: 0.8rem 0 0 0.5rem;
+    padding: 0.8rem 0.5rem;
     border-bottom: 1px solid #ddd;
-    float: left;
-    display: block;
 }
 .user .avatar {
     width: 280px;
@@ -42,6 +40,9 @@ h1 {
   margin-top: 1rem;
   padding-bottom: 5rem;
 }
-.panel-repo, .panel-heading.repo {
-  background: #fff;
+.panel-repo .star-count {
+  margin-left: auto;
+  margin-right: 8px;
 }
+
+

@@ -1,22 +1,26 @@
 $(function () {
 
-    let $user = $('#username');
-
     let data = {
         client_id: 'a9289d21b4dd2cd324f6',
         client_secret: '55268db5991f35ab4a721d59cc687ac95da54280'
     }
-    let timerId;
+    let timerUser, timerRepos;
+    let userRepos;
+
+    let $user = $('#username');
 
     $user.on('keyup', function (event) {
 
-        clearTimeout(timerId);
+        clearTimeout(timerUser);
 
         let fetchUser, fetchRepos;
 
         if ($user.val().trim().length === 0) return;
 
-        timerId = setTimeout(async function () {
+        timerUser = setTimeout(async function () {
+
+            if (fetchUser) fetchUser.abort();
+            if (fetchRepos) fetchRepos.abort();
 
             try {
                 fetchUser = $.ajax({
@@ -27,6 +31,7 @@ $(function () {
                 }, data);
 
                 let [user, repos] = await Promise.all([fetchUser, fetchRepos]);
+                userRepos = repos;
                 showProfile(user);
                 showRepos(repos);
 
@@ -36,6 +41,23 @@ $(function () {
 
         }, 300);
 
+    })
+
+    $('.repos').on('keyup', '#search', function (event) {
+
+        clearTimeout(timerRepos);
+
+        if ($(this).val().trim().length === 0) return;
+
+        let searchRepo = $(this).val().trim();
+
+        timerRepos = setTimeout(function () {
+            if (searchRepo) {
+                showRepos(userRepos.filter((repo) => repo.name.indexOf(searchRepo) > -1));
+            } else {
+                showRepos(userRepos);
+            } 
+        }, 300)
     })
 
     function showProfile(user) {
@@ -76,22 +98,12 @@ $(function () {
         </a>`
         }).join('')
 
-        let html = `
-      <div class="panel">
-        <p class="panel-heading repo">
-          <i class="octicon octicon-list-unordered"></i>
-          仓库列表
-        </p>
-        ${reposHTML}
-      </div>`
-
-        $('.repos').html(html)
+        $('.reposList').html(reposHTML)
     };
 
     function clear() {
         $('.profile').html('')
-        $('.repos').html('')
+        $('.reposList').html('')
     };
-
 
 })
