@@ -4,11 +4,14 @@ $(function () {
         client_id: 'a9289d21b4dd2cd324f6',
         client_secret: '55268db5991f35ab4a721d59cc687ac95da54280'
     }
-    let timerUser, timerRepos;
+    let timerUser, timerRepos, timerMore;
     let userRepos;
     let flag = false;
+    let page = 1;
 
     let $user = $('#username');
+    let $search = $('#search');
+    let $more = $('.more');
 
     $user.on('keyup', function (event) {
 
@@ -44,7 +47,7 @@ $(function () {
 
     })
 
-    $('#search').on('keyup', function (event) {
+    $search.on('keyup', function (event) {
 
         clearTimeout(timerRepos);
 
@@ -63,6 +66,20 @@ $(function () {
                 return;
             }
         }, 300)
+    })
+
+    $more.on('click', function(event) {
+
+        page++;
+
+        (async function() {
+            let url = `https://api.github.com/users/${$user.val()}/repos?page=${page}`;
+            let res = await fetch(url, data);
+            let repos = await res.json();
+            userRepos = userRepos.concat(repos);
+            showRepos(userRepos);
+        })()
+
     })
 
     function showProfile(user) {
