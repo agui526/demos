@@ -71,6 +71,7 @@ $(function () {
     $more.on('click', function(event) {
 
         page++;
+        $(this).addClass('is-loading');
 
         (async function() {
             let url = `https://api.github.com/users/${$user.val()}/repos?page=${page}`;
@@ -78,7 +79,8 @@ $(function () {
             let repos = await res.json();
             userRepos = userRepos.concat(repos);
             showRepos(userRepos);
-        })()
+            $more.removeClass('is-loading');
+        })();
 
     })
 
