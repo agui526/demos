@@ -163,13 +163,14 @@ export default {
                   url: item.link
                 }
               });
+            this.moreDataList = this.moreDataList.concat(dataList)
+
+            start += 10
+            end = start + 9
+            this.$refs.myRef.finishInfinite()
           }, 1000)
 
-          this.moreDataList = this.moreDataList.concat(dataList)
 
-          start += 10
-          end = start + 9
-          this.$refs.myRef.finishInfinite()
         })
     }
   }
